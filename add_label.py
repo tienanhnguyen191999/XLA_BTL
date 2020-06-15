@@ -76,39 +76,28 @@ def crop(file_path, outpath):
     # fig = plt.figure(figsize=(5, 10))
     columns = 5
     rows = 2
-    i = 1
+    i = 0
     for letter in letters:
         if letter['end']-letter['start'] < 40:
             bbox = (letter['start'], 0, letter['end'], h-1)
             crop = img.crop(bbox)
-            #crop = crop.resize((30,60))
-
-            # ax = fig.add_subplot(rows, columns, i)
             i = i + 1
-            # plt.imshow(crop)
 
-            crop.save(outpath + '/' + 'ouput.png')
+            crop.save(outpath + '/' + 'ouput_{}.png'.format(i))
             # Label crop character
-            imgg = cv2.imread(outpath + '/' + 'ouput.png', -1)
-            custom_config = r'--oem 3 --psm 6'
-            label = pytesseract.image_to_string(imgg, config=custom_config)
-            print(label)
-            # label = ""
-            # print(label)
-            cv2.imwrite('data/training_data/{char}/{name}.png'.format(char = label.lower(), name=time.time()), imgg)
-            # time.sleep(1)
-    # Adding custom options
-    # invoice_serialplt.show()
-    # plt.imshow(img)
+            # imgg = cv2.imread(outpath + '/' + 'ouput_{}.png'.format(i), -1)
+            # custom_config = r'--oem 3 --psm 6'
+            # label = pytesseract.image_to_string(imgg, config=custom_config)
+            # cv2.imwrite('data/training_data/{char}/{name}.png'.format(char = label.lower(), name=time.time()), imgg)
 
 def avg_method(file_path_for_test):
     img = crop(file_path_for_test, 'data/split')
 
-# DOI FILE TEST O DAY
-for i in range(1, 100):
-    try:
-        file_path_for_test = 'data/erase_noise/erase_noise_{no}.png'.format(no=i)
-        print(i)
-        avg_method(file_path_for_test)
-    except:
-        pass
+# # DOI FILE TEST O DAY
+# for i in range(1, 10000):
+#     try:
+#         file_path_for_test = 'data/erase_noise/erase_noise_{no}.png'.format(no=i)
+#         print(i)
+#         avg_method(file_path_for_test)
+#     except:
+#         pass

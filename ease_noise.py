@@ -1,6 +1,6 @@
 import cv2 
 
-for i in range(1, 100):
+for i in range(1, 10000):
     file_path = 'data/origin/origin_{no}.png'.format(no=i)
     file_path_erase_noise = 'data/erase_noise/erase_noise_{no}.png'.format(no=i)
     
