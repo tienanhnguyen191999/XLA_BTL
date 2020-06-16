@@ -44,7 +44,7 @@ reverse_mapping_char = {
          35: 'z' ,
         }
     
-for i in range(20,30):
+for i in range(1000,1200):
     file_path_for_test = 'data/erase_noise/erase_noise_{}.png'.format(i)
     avg_method(file_path_for_test)
     result = ""

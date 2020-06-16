@@ -5,7 +5,6 @@ for i in range(1, 10000):
     file_path_erase_noise = 'data/erase_noise/erase_noise_{no}.png'.format(no=i)
     
     # Xoá đường ngang dọc
-    # print(file_path)
     try:
         image = cv2.imread(file_path, -1)
         image = cv2.morphologyEx(image, cv2.MORPH_RECT, None)
