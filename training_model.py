@@ -87,7 +87,7 @@ reverse_mapping_char = {
 
 # 1. data folder ----> array(list)
 raw_data = []
-for r,d,f in os.walk('training_data'):
+for r,d,f in os.walk('training_data_checked'):
     for images in f:
         img = cv2.imread(r +"/"+ images,-1)
         trans_mask = img[:,:,3] == 0
@@ -160,7 +160,7 @@ model.fit(images_train, labels_train, validation_data=(images_val, labels_val),
           batch_size=32, epochs=10, verbose=1)
 
 # 8. Lưu model
-model.save("alphabet_predict_model")
+model.save("alphabet_predict_model.h5")
 
 # 9. Đánh giá model với dữ liệu test set
 score = model.evaluate(images_test, labels_test, verbose=0)

@@ -1,4 +1,4 @@
 data/
 *.pyc
 venv/
-training_data/
+training_data_checked/

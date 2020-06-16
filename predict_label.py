@@ -2,9 +2,9 @@ import keras
 import cv2
 import numpy as np
 from PIL import Image
-from add_label import avg_method
+from utils import avg_method
 
-model = keras.models.load_model('alphabet_predict_model')
+model = keras.models.load_model('alphabet_predict_model.h5')
 reverse_mapping_char = { 
          0 : '0' ,
          1 : '1' ,
@@ -45,22 +45,28 @@ reverse_mapping_char = {
         }
     
 for i in range(1000,1200):
-    file_path_for_test = 'data/erase_noise/erase_noise_{}.png'.format(i)
-    avg_method(file_path_for_test)
+    file_path_erase_for_test = 'data/erase_noise/erase_noise_{}.png'.format(i)
+    file_path_raw_for_test = 'data/origin/origin_{}.png'.format(i)
+    avg_method(file_path_erase_for_test)
     result = ""
     for i in range(1,6):
-        img = cv2.imread('data/split/ouput_{}.png'.format(i),-1)
-        trans_mask = img[:,:,3] == 0
-        img[trans_mask] = [255, 255, 255, 255]
-        img = cv2.cvtColor(img, cv2.COLOR_BGRA2GRAY)
-        img = cv2.resize(img, (28,28), -1)
-        predict = model.predict(img.reshape(1,28,28,1))
+        erase_img = cv2.imread('data/split/output_{}.png'.format(i),-1)
+        trans_mask = erase_img[:,:,3] == 0
+        erase_img[trans_mask] = [255, 255, 255, 255]
+        erase_img = cv2.cvtColor(erase_img, cv2.COLOR_BGRA2GRAY)
+        erase_img = cv2.resize(erase_img, (28,28), -1)
+        predict = model.predict(erase_img.reshape(1,28,28,1))
         result += reverse_mapping_char[np.argmax(predict)]
 
     print(result)
-    img = cv2.imread(file_path_for_test,-1)
+    img = cv2.imread(file_path_raw_for_test,-1)
     trans_mask = img[:,:,3] == 0
     img[trans_mask] = [255, 255, 255, 255]
-    img = cv2.cvtColor(img, cv2.COLOR_BGRA2GRAY)
-    cv2.imshow('origin', img)
+    img = cv2.cvtColor(img, cv2.COLOR_BGRA2BGR)
+
+    img_result = np.zeros((img.shape), dtype=np.uint8)
+    cv2.putText(img_result,result,(10,30), cv2.FONT_HERSHEY_SIMPLEX, 1,(0,0,255))
+
+    cv2.imshow('RAW', img)
+    cv2.imshow('TEXT_PREDICT', img_result)
     cv2.waitKey()
